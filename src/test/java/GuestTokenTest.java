@@ -1,4 +1,3 @@
-import io.restassured.specification.ResponseSpecification;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,7 +17,7 @@ public class GuestTokenTest extends BaseTest {
         String response =
         given()
                 .contentType("application/json")
-                .auth().preemptive().basic("front_2d6b0a8391742f5d789d7d915755e09e","c29tZWNsaWVudDphbmRpdHNzZWNyZXQ=")
+                .auth().preemptive().basic(UserHelper.BASE_AUTH_USERNAME,UserHelper.BASE_AUTH_TOKEN)
                 .body(jsonAsMap)
         .when()
                 .post("/v2/oauth2/token")

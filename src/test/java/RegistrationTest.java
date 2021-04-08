@@ -4,62 +4,73 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.post;
 
 public class RegistrationTest extends BaseTest{
+
+    protected String username;
+
+    protected String email;
+
+    protected String password;
+
+    protected String name;
+
+    protected String surname;
+
     @Test
     public void registerNewPlayer() {
+        String guestToken = UserHelper.getGuestToken();
 
-        Map<String,String> jsonAsMap2 = new HashMap<>();
-
-        jsonAsMap2.put("grant_type", "client_credentials");
-        jsonAsMap2.put("scope", "guest:default");
-        String getToken =
-                given()
-                        .contentType("application/json")
-                        .auth().preemptive().basic("front_2d6b0a8391742f5d789d7d915755e09e","c29tZWNsaWVudDphbmRpdHNzZWNyZXQ=")
-                        .body(jsonAsMap2)
-                        .when()
-                        .post("/v2/oauth2/token")
-                        .then()
-                        .extract()
-                        .asString();
-
-        JSONObject responseJson = new JSONObject(getToken);
-
-        String token = responseJson.get("access_token").toString();
-
-
+        this.username = UUID.randomUUID().toString().split("-")[0];
+        this.email = this.username + "@example.com";
+        this.password = "amFuZWRvZEyMw==";
+        this.name = UUID.randomUUID().toString().split("-")[0];
+        this.surname = UUID.randomUUID().toString().split("-")[0];
 
         Map<String,String> jsonAsMap = new HashMap<>();
 
-        jsonAsMap.put("username", "niki12342");
-        jsonAsMap.put("password_change", "amFuZWRvZEyMw==");
-        jsonAsMap.put("password_repeat", "amFuZWRvZEyMw==");
-        jsonAsMap.put("email", "niki14368657@example.com");
-        jsonAsMap.put("name", "Niki");
-        jsonAsMap.put("surname", "Doe");
-        jsonAsMap.put("currency_code", "CAD");
+        System.out.println(username);
+        System.out.println(email);
+        System.out.println(name);
+        System.out.println(surname);
+
+        jsonAsMap.put("username", this.username);
+        jsonAsMap.put("password_change", this.password);
+        jsonAsMap.put("password_repeat", this.password);
+        jsonAsMap.put("email", this.email);
+        jsonAsMap.put("name", this.name);
+        jsonAsMap.put("surname", this.surname);
 
         String response =
                 given()
                         .contentType("application/json")
-                        .auth().oauth2("Bearer " + token)
+                        .auth().oauth2(guestToken)
                         .body(jsonAsMap)
                 .when()
                         .post("/v2/players")
                 .then()
-//                        .statusCode(201)
+                        .statusCode(201)
                         .extract()
+                        .body()
                         .asString();
 
-        System.out.println(response);
-    //    JSONObject responseJson = new JSONObject($response);
-//
-//        Assert.assertEquals("Bearer", responseJson.get("token_type").toString());
-//        Assert.assertEquals("86400", responseJson.get("expires_in").toString());
-//        Assert.assertTrue(responseJson.get("access_token") != null && !responseJson.get("access_token").toString().isEmpty());
+        JSONObject responseJson = new JSONObject(response);
+
+        Assert.assertTrue(responseJson.get("id").toString() != null && !responseJson.get("id").toString().isEmpty());
+        Assert.assertNull(responseJson.get("country_id"));
+        Assert.assertNull(responseJson.get("timezone_id").toString());
+        Assert.assertEquals(this.username, responseJson.get("username").toString());
+        Assert.assertEquals(this.email, responseJson.get("email").toString());
+        Assert.assertEquals(this.name, responseJson.get("name").toString());
+        Assert.assertEquals(this.surname, responseJson.get("surname").toString());
+        Assert.assertNull(responseJson.get("gender").toString());
+        Assert.assertNull(responseJson.get("phone_number").toString());
+        Assert.assertNull(responseJson.get("birthdate").toString());
+        Assert.assertEquals(true, responseJson.get("bonuses_allowed"));
+        Assert.assertEquals(false, responseJson.get("is_verified"));
     }
+
 }
