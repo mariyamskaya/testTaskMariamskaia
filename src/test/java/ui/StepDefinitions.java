@@ -4,6 +4,8 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.After;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import ui.Pages.HomePage;
@@ -37,6 +39,13 @@ public class StepDefinitions {
 
     @Then("I should be logged-in")
     public void ishouldBeLoggedIn() {
-        throw new io.cucumber.java.PendingException();
+        Assert.assertTrue(this.homePage.isSideBarVisible());
+        Assert.assertTrue(this.homePage.isDashboardVisible());
+        this.homePage.checkUsername("admin1");
+    }
+
+    @Then("close browser")
+    public void closeBrowser() {
+        driver.quit();
     }
 }
