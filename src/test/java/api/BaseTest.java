@@ -1,3 +1,5 @@
+package api;
+
 import io.restassured.RestAssured;
 
 import org.junit.BeforeClass;
