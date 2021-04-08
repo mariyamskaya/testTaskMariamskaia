@@ -1,6 +1,6 @@
 package api;
 
-import Helpers.GuestHelper;
+import helpers.GuestHelper;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;

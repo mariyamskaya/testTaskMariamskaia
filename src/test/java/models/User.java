@@ -1,6 +1,6 @@
-package Models;
+package models;
 
-import Helpers.GuestHelper;
+import helpers.GuestHelper;
 import org.json.JSONObject;
 
 import java.util.HashMap;

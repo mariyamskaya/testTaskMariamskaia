@@ -1,7 +1,7 @@
 package api;
 
-import Helpers.DataHelper;
-import Models.User;
+import helpers.DataHelper;
+import models.User;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
