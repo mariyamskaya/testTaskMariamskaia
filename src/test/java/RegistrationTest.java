@@ -10,11 +10,9 @@ import static io.restassured.RestAssured.given;
 public class RegistrationTest extends BaseTest{
     @Test
     public void registerNewPlayer() {
-        String username = DataHelper.generateRandomString();
-        String email = username + "@example.com";
-        String password = "amFuZWRvZEyMw==";
-
-        User player = new User(username, email, password);
+        Map<String,String> userData = DataHelper.generateUserCredentials();
+        
+        User player = new User(userData.get("username"), userData.get("email"), userData.get("password"));
 
         Map<String,String> jsonAsMap = new HashMap<>();
 

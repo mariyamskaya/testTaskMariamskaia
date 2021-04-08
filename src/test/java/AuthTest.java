@@ -2,6 +2,7 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,11 +14,9 @@ public class AuthTest extends BaseTest {
 
     @Before
     public void precondition() {
-        String username = DataHelper.generateRandomString();
-        String email = username + "@example.com";
-        String password = "amFuZWRvZEyMw==";
+        Map<String,String> userData = DataHelper.generateUserCredentials();
 
-        this.player = new User(username, email, password);
+        this.player = new User(userData.get("username"), userData.get("email"), userData.get("password"));
         this.player.register();
     }
 
