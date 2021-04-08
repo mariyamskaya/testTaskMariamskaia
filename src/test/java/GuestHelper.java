@@ -1,18 +1,16 @@
 import org.json.JSONObject;
-import org.junit.Assert;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
-public class UserHelper {
+public class GuestHelper {
 
     public static final String BASE_AUTH_USERNAME = "front_2d6b0a8391742f5d789d7d915755e09e";
 
     public static final String BASE_AUTH_TOKEN = "c29tZWNsaWVudDphbmRpdHNzZWNyZXQ=";
 
-    public static String getGuestToken() {
+    public static String generateGuestToken() {
         Map<String,String> jsonAsMap = new HashMap<>();
 
         jsonAsMap.put("grant_type", "client_credentials");

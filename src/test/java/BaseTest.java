@@ -1,7 +1,4 @@
 import io.restassured.RestAssured;
-import io.restassured.RestAssured.*;
-import io.restassured.matcher.RestAssuredMatchers.*;
-import org.hamcrest.Matchers.*;
 import org.junit.BeforeClass;
 
 public class BaseTest {

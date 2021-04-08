@@ -17,7 +17,7 @@ public class GuestTokenTest extends BaseTest {
         String response =
         given()
                 .contentType("application/json")
-                .auth().preemptive().basic(UserHelper.BASE_AUTH_USERNAME,UserHelper.BASE_AUTH_TOKEN)
+                .auth().preemptive().basic(GuestHelper.BASE_AUTH_USERNAME, GuestHelper.BASE_AUTH_TOKEN)
                 .body(jsonAsMap)
         .when()
                 .post("/v2/oauth2/token")
@@ -32,6 +32,6 @@ public class GuestTokenTest extends BaseTest {
 
         Assert.assertEquals("Bearer", responseJson.get("token_type").toString());
         Assert.assertEquals("86400", responseJson.get("expires_in").toString());
-        Assert.assertTrue(responseJson.get("access_token") != null && !responseJson.get("access_token").toString().isEmpty());
+        Assert.assertTrue(responseJson.get("access_token") != JSONObject.NULL && !responseJson.get("access_token").toString().isEmpty());
     }
 }

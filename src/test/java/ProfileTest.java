@@ -1,5 +1,6 @@
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -7,50 +8,66 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
-public class RegistrationTest extends BaseTest{
-    @Test
-    public void registerNewPlayer() {
+public class ProfileTest extends BaseTest {
+
+    public User player;
+
+    @Before
+    public void precondition() {
         String username = DataHelper.generateRandomString();
         String email = username + "@example.com";
         String password = "amFuZWRvZEyMw==";
 
-        User player = new User(username, email, password);
+        this.player = new User(username, email, password);
 
+        this.player.register();
+        this.player.authenticate();
+    }
+
+    @Test
+    public void getOwnProfileData() {
         Map<String,String> jsonAsMap = new HashMap<>();
-
-        jsonAsMap.put("username", player.getUsername());
-        jsonAsMap.put("password_change", player.getPassword());
-        jsonAsMap.put("password_repeat", player.getPassword());
-        jsonAsMap.put("email", player.getEmail());
-        jsonAsMap.put("name", player.getName());
-        jsonAsMap.put("surname", player.getSurname());
 
         String response =
                 given()
                         .contentType("application/json")
-                        .auth().oauth2(GuestHelper.generateGuestToken())
+                        .auth().preemptive().oauth2(this.player.getAuthToken())
                         .body(jsonAsMap)
                 .when()
-                        .post("/v2/players")
+                        .get("/v2/players/" + player.getId())
                 .then()
-                        .statusCode(201)
+                        .statusCode(200)
                         .extract()
                         .body()
                         .asString();
 
         JSONObject responseJson = new JSONObject(response);
 
-        Assert.assertTrue(responseJson.get("id") != null && !responseJson.get("id").toString().isEmpty());
+        Assert.assertEquals(player.getId(), Integer.parseInt(responseJson.get("id").toString()));
         Assert.assertEquals(JSONObject.NULL, responseJson.get("country_id"));
         Assert.assertEquals(JSONObject.NULL, responseJson.get("timezone_id"));
         Assert.assertEquals(player.getUsername(), responseJson.get("username").toString());
         Assert.assertEquals(player.getEmail(), responseJson.get("email").toString());
         Assert.assertEquals(player.getName(), responseJson.get("name").toString());
         Assert.assertEquals(player.getSurname(), responseJson.get("surname").toString());
-        Assert.assertEquals(responseJson.get("gender"), JSONObject.NULL);
-        Assert.assertEquals(responseJson.get("phone_number"), JSONObject.NULL);
-        Assert.assertEquals(responseJson.get("birthdate"), JSONObject.NULL);
+        Assert.assertEquals(JSONObject.NULL, responseJson.get("gender"));
+        Assert.assertEquals(JSONObject.NULL, responseJson.get("phone_number"));
+        Assert.assertEquals(JSONObject.NULL, responseJson.get("birthdate"));
         Assert.assertEquals(true, responseJson.get("bonuses_allowed"));
         Assert.assertEquals(false, responseJson.get("is_verified"));
+    }
+
+    @Test
+    public void getNotExistingProfile() {
+        Map<String,String> jsonAsMap = new HashMap<>();
+
+        given()
+                .contentType("application/json")
+                .auth().preemptive().oauth2(this.player.getAuthToken())
+                .body(jsonAsMap)
+        .when()
+                .get("/v2/players/1")
+        .then()
+                .statusCode(404);
     }
 }
