@@ -1,10 +1,11 @@
-package ui.Pages;
+package ui.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import ui.EnvSettings;
 
 public class LoginPage extends BasePage {
-    public String pageUrl = "http://test-app.d6.dev.devcaz.com/admin/login";
+    public String pageUrl = EnvSettings.BASE_HOST + "/admin/login";
 
     private By usernameField = By.id("UserLogin_username");
 

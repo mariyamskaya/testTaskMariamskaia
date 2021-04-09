@@ -12,9 +12,7 @@ Feature: Admin panel
     Given I open players page
     When I see players table
     Then It should be loaded
-
-  Scenario: Sort players by username
-    Given I sort table by username
+    Then I sort table by username
 
   Scenario: Close browser
     Then close browser

@@ -1,11 +1,12 @@
-package ui.Pages;
+package ui.pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import ui.EnvSettings;
 
 public class HomePage extends BasePage {
-    public String pageUrl = "http://test-app.d6.dev.devcaz.com/configurator/dashboard/index";
+    public String pageUrl = EnvSettings.BASE_HOST + "/configurator/dashboard/index";
 
     private By sideBar = By.className("main-side-menu");
 

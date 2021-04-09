@@ -1,4 +1,4 @@
-package ui;
+package ui.stepsDefinitions;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -8,65 +8,72 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import ui.Pages.HomePage;
-import ui.Pages.LoginPage;
-import ui.Pages.PlayersPage;
+import ui.pages.HomePage;
+import ui.pages.LoginPage;
+import ui.pages.PlayersPage;
+import ui.pages.TablePage;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class StepsDefinition {
+public class StepsDefinitions {
     public static WebDriver driver;
 
-    LoginPage loginPage = new LoginPage(driver);
-    HomePage homePage;
+    public LoginPage loginPage;
 
-    PlayersPage playersPage = new PlayersPage(driver);
-    TablePage resultTable;
+    public HomePage homePage;
+
+    public PlayersPage playersPage;
+
+    public TablePage resultTable;
 
     @Given("I setup browser")
     public static void setUp() {
         ChromeOptions options = new ChromeOptions();
+        //options.addArguments("--headless");
+        options.addArguments("start-maximized");
+        //options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
 
         driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
     }
 
     @Given("open login page")
     public void open_login_page() {
-        loginPage.open();
+        this.loginPage = new LoginPage(driver);
+        this.loginPage.open();
     }
 
     @And("fill username field {string}")
     public void fill_username_field(String username) {
-        loginPage.fillUsernameField(username);
+        this.loginPage.fillUsernameField(username);
     }
 
     @And("fill password field {string}")
     public void fillPasswordField(String password) {
-        loginPage.fillPasswordField(password);
+        this.loginPage.fillPasswordField(password);
     }
 
     @When("click sign-in button")
     public void clickSignInButton() {
-        this.homePage = loginPage.clickSignInButton();
+        this.homePage = this.loginPage.clickSignInButton();
     }
 
     @Then("I should be logged-in")
     public void ishouldBeLoggedIn() {
         Assert.assertTrue(this.homePage.isSideBarVisible());
         Assert.assertTrue(this.homePage.isDashboardVisible());
+
         this.homePage.checkUsername("admin1");
     }
 
     @Given("I open players page")
-    public void i_open_players_page() {
-        playersPage.open();
+    public void iOpenPlayersPage() {
+        this.playersPage = new PlayersPage(driver);
+
+        this.playersPage.open();
     }
 
     @When("I see players table")
     public void iSeePlayersTable() {
-        this.resultTable = playersPage.playersTableVisible();
+        this.resultTable = this.playersPage.playersTableVisible();
     }
 
     @Then("It should be loaded")

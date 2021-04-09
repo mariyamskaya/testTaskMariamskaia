@@ -1,0 +1,13 @@
+version: "3"
+services:
+  tests:
+    build: .
+    command: bash -c "mvn test"
+    volumes:
+      - ./src:/app/src
+      - ./target:/app/target
+      - ./pom.xml:/app/pom.xml
+      - mavencache:/root/.m2/repository
+
+volumes:
+  mavencache:

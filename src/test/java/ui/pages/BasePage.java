@@ -1,7 +1,7 @@
-package ui.Pages;
+package ui.pages;
 
 import org.openqa.selenium.WebDriver;
 
-public class BasePage {
+public abstract class BasePage {
     public WebDriver driver;
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
-public class RegistrationTest extends BaseTest{
+public class RegistrationTest extends Base {
     @Test
     public void registerNewPlayer() {
         Map<String,String> userData = DataHelper.generateUserCredentials();

@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
-public class ProfileTest extends BaseTest {
+public class ProfileTest extends Base {
 
     public User player;
 

@@ -10,7 +10,7 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
-public class GuestTokenTest extends BaseTest {
+public class GuestTokenTest extends Base {
     @Test
     public void getGuestToken() {
         Map<String,String> jsonAsMap = new HashMap<>();
@@ -35,7 +35,6 @@ public class GuestTokenTest extends BaseTest {
         JSONObject responseJson = new JSONObject(response);
 
         Assert.assertEquals("Bearer", responseJson.get("token_type").toString());
-        Assert.assertEquals("86400", responseJson.get("expires_in").toString());
         Assert.assertTrue(responseJson.get("access_token") != JSONObject.NULL && !responseJson.get("access_token").toString().isEmpty());
     }
 }
