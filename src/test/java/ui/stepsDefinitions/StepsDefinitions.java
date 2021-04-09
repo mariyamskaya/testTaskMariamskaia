@@ -27,9 +27,9 @@ public class StepsDefinitions {
     @Given("I setup browser")
     public static void setUp() {
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
         options.addArguments("start-maximized");
-        //options.addArguments("--disable-gpu");
+        options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
 
         driver = new ChromeDriver(options);
