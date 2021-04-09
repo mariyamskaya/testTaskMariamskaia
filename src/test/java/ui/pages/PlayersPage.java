@@ -1,19 +1,13 @@
 package ui.pages;
 
-import api.Base;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ui.EnvSettings;
 
-import java.time.Duration;
-
-
 public class PlayersPage extends BasePage {
-    public String pageUrl = EnvSettings.BASE_HOST + "/user/player/admin";
+    public static String pageUrl = EnvSettings.BASE_HOST + "/user/player/admin";
 
     private By playersTable = By.xpath("//table[@class='table table-hover table-striped table-bordered table-condensed']");
 
@@ -22,18 +16,15 @@ public class PlayersPage extends BasePage {
     }
 
     public void open() {
-        driver.get(this.pageUrl);
+        driver.get(pageUrl);
     }
 
     public TablePage playersTableVisible() {
-        WebElement playersTableElement = new WebDriverWait(driver, EnvSettings.WAIT_TIMEOUT)
-                .until(ExpectedConditions.visibilityOf(this.driver.findElement(playersTable)));
+        new WebDriverWait(driver, EnvSettings.WAIT_TIMEOUT)
+                .until(ExpectedConditions.visibilityOf(driver.findElement(this.playersTable)));
 
-        if (!playersTableElement.isDisplayed()) {
-            Assert.fail();
-        }
+        TablePage resultTable = new TablePage(driver);
 
-        TablePage resultTable = new TablePage(this.driver);
         resultTable.parseTable();
 
         return resultTable;

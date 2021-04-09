@@ -18,7 +18,7 @@ public class TablePage extends BasePage {
     }
 
     public void parseTable() {
-        List<WebElement> rowsList = this.driver.findElements(By.tagName("tr")); // get all table rows
+        List<WebElement> rowsList = driver.findElements(By.tagName("tr")); // get all table rows
         List<WebElement> headersList = rowsList.get(0).findElements(By.tagName("th")); // get all table headers
         rowsList.remove(0); // remove headers row
 
@@ -44,7 +44,7 @@ public class TablePage extends BasePage {
     }
 
     public TablePage clickUsernameSortingLink() {
-        this.driver.findElement(sortByUsernameLink).click();
+        driver.findElement(sortByUsernameLink).click();
 
         return this;
     }

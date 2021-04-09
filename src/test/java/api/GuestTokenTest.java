@@ -19,18 +19,18 @@ public class GuestTokenTest extends Base {
         jsonAsMap.put("scope", "guest:default");
 
         String response =
-        given()
-                .contentType("application/json")
-                .auth().preemptive().basic(GuestHelper.BASE_AUTH_USERNAME, GuestHelper.BASE_AUTH_TOKEN)
-                .body(jsonAsMap)
-        .when()
-                .post("/v2/oauth2/token")
-        .then()
-                .assertThat()
-                .statusCode(200)
-                .extract()
-                .body()
-                .asString();
+                given()
+                    .contentType("application/json")
+                    .auth().preemptive().basic(GuestHelper.BASE_AUTH_USERNAME, GuestHelper.BASE_AUTH_TOKEN)
+                    .body(jsonAsMap)
+                .when()
+                    .post("/v2/oauth2/token")
+                .then()
+                    .assertThat()
+                    .statusCode(200)
+                    .extract()
+                    .body()
+                    .asString();
 
         JSONObject responseJson = new JSONObject(response);
 

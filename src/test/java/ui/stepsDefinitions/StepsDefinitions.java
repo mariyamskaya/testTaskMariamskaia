@@ -35,29 +35,32 @@ public class StepsDefinitions {
         driver = new ChromeDriver(options);
     }
 
-    @Given("open login page")
-    public void open_login_page() {
+    @And("I open login page")
+    public void openLoginPage() {
         this.loginPage = new LoginPage(driver);
+
         this.loginPage.open();
     }
 
-    @And("fill username field {string}")
-    public void fill_username_field(String username) {
+    @And("I fill username field {string}")
+    public void fillUsernameField(String username) {
         this.loginPage.fillUsernameField(username);
     }
 
-    @And("fill password field {string}")
+    @And("I fill password field {string}")
     public void fillPasswordField(String password) {
         this.loginPage.fillPasswordField(password);
     }
 
-    @When("click sign-in button")
+    @When("I click sign-in button")
     public void clickSignInButton() {
         this.homePage = this.loginPage.clickSignInButton();
     }
 
     @Then("I should be logged-in")
-    public void ishouldBeLoggedIn() {
+    public void shouldBeLoggedIn() {
+        Assert.assertEquals(driver.getCurrentUrl(), HomePage.pageUrl);
+
         Assert.assertTrue(this.homePage.isSideBarVisible());
         Assert.assertTrue(this.homePage.isDashboardVisible());
 
@@ -65,20 +68,20 @@ public class StepsDefinitions {
     }
 
     @Given("I open players page")
-    public void iOpenPlayersPage() {
+    public void openPlayersPage() {
         this.playersPage = new PlayersPage(driver);
 
         this.playersPage.open();
     }
 
     @When("I see players table")
-    public void iSeePlayersTable() {
+    public void seePlayersTable() {
         this.resultTable = this.playersPage.playersTableVisible();
     }
 
     @Then("It should be loaded")
     public void itShouldBeLoaded() {
-        Assert.assertFalse(this.resultTable.getResultTableSize() == 0);
+        Assert.assertNotEquals(0, this.resultTable.getResultTableSize());
     }
 
     @Given("I sort table by username")
@@ -86,7 +89,7 @@ public class StepsDefinitions {
         this.resultTable.clickUsernameSortingLink();
     }
 
-    @Then("close browser")
+    @Then("I close browser")
     public void closeBrowser() {
         driver.quit();
     }

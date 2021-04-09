@@ -11,6 +11,8 @@ import static io.restassured.RestAssured.given;
 public class User {
     private int id;
 
+    private String authToken;
+
     private String username;
 
     private String email;
@@ -21,15 +23,7 @@ public class User {
 
     private String surname;
 
-    private String authToken;
-
-    public User(String username, String email, String password, String name, String surname) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-    }
+    public String currency;
 
     public User(String username, String email, String password) {
         this.username = username;
@@ -37,6 +31,7 @@ public class User {
         this.password = password;
         this.name = "TestUsername";
         this.surname = "TestSurname";
+        this.currency = "RUB";
     }
 
     public int getId() {
@@ -45,6 +40,14 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
     }
 
     public String getUsername() {
@@ -87,12 +90,12 @@ public class User {
         this.surname = surname;
     }
 
-    public String getAuthToken() {
-        return authToken;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setAuthToken(String authToken) {
-        this.authToken = authToken;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public void register() {
@@ -104,6 +107,7 @@ public class User {
         jsonAsMap.put("email", this.email);
         jsonAsMap.put("name", this.name);
         jsonAsMap.put("surname", this.surname);
+        jsonAsMap.put("currency_code", this.currency);
 
         String response =
                 given()

@@ -27,6 +27,7 @@ public class RegistrationTest extends Base {
         jsonAsMap.put("email", player.getEmail());
         jsonAsMap.put("name", player.getName());
         jsonAsMap.put("surname", player.getSurname());
+        jsonAsMap.put("currency_code", player.getCurrency());
 
         String response =
                 given()
